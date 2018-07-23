@@ -354,7 +354,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
 		     G_CALLBACK(hscale_changed), pdialog);
   } output_type_iterate_end;
 
-  /* Happy Surplus and Factor */
+  /* Happy, Max Growth, Surplus, and Factor */
 
   label = gtk_label_new(_("Celebrate"));
   gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1,
@@ -385,6 +385,24 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
 
   g_signal_connect(pdialog->factor[O_LAST],
 		   "value_changed",
+		   G_CALLBACK(hscale_changed), pdialog);
+
+  label = gtk_label_new(_("Max growth"));
+  gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1,
+			    O_LAST + 2, O_LAST + 3);
+  gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+
+  hbox = gtk_hbox_new(FALSE, 0);
+  gtk_table_attach_defaults(GTK_TABLE(table), hbox, 1, 2,
+			    O_LAST + 2, O_LAST + 3);
+
+  pdialog->max_growth_button = gtk_check_button_new();
+  gtk_box_pack_start(GTK_BOX(hbox), pdialog->max_growth_button, FALSE, FALSE,
+		     20);
+  gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(pdialog->max_growth_button),
+			       FALSE);
+
+  g_signal_connect(pdialog->max_growth_button, "toggled",
 		   G_CALLBACK(hscale_changed), pdialog);
 
   /* buttons */
@@ -719,6 +737,8 @@ static void hscale_changed(GtkAdjustment *get, gpointer data)
   param.require_happy =
       (GTK_TOGGLE_BUTTON(pdialog->happy_button)->active ? 1 : 0);
   param.happy_factor = (int) (pdialog->factor[O_LAST]->value);
+  param.max_growth =
+      (GTK_TOGGLE_BUTTON(pdialog->max_growth_button)->active ? 1 : 0);
 
   /* save the change */
   cmafec_set_fe_parameter(pdialog->pcity, &param);

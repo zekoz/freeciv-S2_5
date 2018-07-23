@@ -35,6 +35,7 @@
 /* A description of the goal. */
 struct cm_parameter {
   int minimal_surplus[O_LAST];
+  bool max_growth;
   bool require_happy;
   bool allow_disorder;
   bool allow_specialists;
@@ -45,7 +46,7 @@ struct cm_parameter {
 
 /* A result which can examined. */
 struct cm_result {
-  bool found_a_valid, disorder, happy;
+  bool found_a_valid, disorder, happy, max_growth;
 
   int surplus[O_LAST];
 

@@ -40,6 +40,7 @@ struct cma_dialog {
   GtkWidget *active_command;
   GtkAdjustment *minimal_surplus[O_LAST];
   GtkWidget *happy_button;
+  GtkWidget *max_growth_button;
   GtkAdjustment *factor[O_LAST + 1];
   GtkTreeSelection *selection;
   GtkListStore *store;
